@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chasewood Bank — Online Banking Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loginView" class="login-screen">
+  <div class="login-card">
+    <div class="brand"><span class="brand-mark">◇</span><div><b>Chasewood Bank</b><small>Your Goals. Our Priority.</small></div></div>
+    <div class="demo-note">FICTIONAL DEMO — not a real bank</div>
+    <h1>Sign in</h1>
+    <p class="muted">Access your Chasewood Bank demo account.</p>
+    <label>Username<input id="username" autocomplete="off" placeholder="Username"></label>
+    <label>Password<input id="password" type="password" placeholder="Password"></label>
+    <button class="primary" onclick="login()">Sign in</button>
+    <p id="loginError" class="error"></p>
+    <p class="hint">Demo username: <b>kaylawoods</b><br>Demo password: <b>Kaylawoodslove1</b></p>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">◇</span><div><b>Chasewood Bank</b><small>Your Goals. Our Priority.</small></div></div>
+    <div class="top-actions"><span>✉ Messages</span><span>♧ Alerts</span><span>👤 Kaylawoods ▾</span><button onclick="logout()">Log out</button></div>
+  </header>
+
+  <aside class="sidebar">
+    <nav>
+      <button class="nav active" data-page="home">⌂ <span>Home</span></button>
+      <button class="nav" data-page="accounts">▣ <span>Accounts</span></button>
+      <button class="nav" data-page="transfer">⇄ <span>Transfer & Pay</span></button>
+      <button class="nav" data-page="deposit">▤ <span>Check Deposit</span></button>
+      <button class="nav" data-page="cards">▣ <span>Cards</span></button>
+      <button class="nav" data-page="alerts">♧ <span>Alerts</span></button>
+      <button class="nav" data-page="statements">▤ <span>Statements & Documents</span></button>
+      <button class="nav" data-page="settings">⚙ <span>Settings</span></button>
+      <button class="nav" data-page="help">? <span>Help & Support</span></button>
+    </nav>
+    <div class="secure">🔒<br><b>Secure & Encrypted</b><br><small>Your information is protected.</small></div>
+  </aside>
+
+  <main id="content"></main>
+  <footer>FICTIONAL DEMO • Privacy • Security • Terms & Conditions • Contact Us</footer>
+</div>
+
+<script>
+const pages = {
+home: () => `
+  <section class="page">
+    <div class="page-head"><div><h1>Welcome back, Kaylawoods</h1><p>Here's your account summary.</p></div><small>Tuesday, September 17, 2026<br>Demo session</small></div>
+    <div class="grid main-grid">
+      <div class="card wide"><div class="card-title"><h2>Account Balances</h2><a onclick="go('accounts')">View all accounts →</a></div>
+        ${account("Checking","1234","$2,483.76","Available balance")}
+        ${account("Savings","5678","$5,230.12","Available balance")}
+        ${account("Chasewood Credit Card","9012","$1,245.30","Current balance")}
+        ${account("Auto Loan","3456","$8,672.19","Current balance")}
+        ${account("Investment Account","7890","$12,340.55","Available balance")}
+      </div>
+      <div class="card"><h2>Recent Activity</h2>${activity("Walmart Supercenter","-$86.42")}${activity("Direct Deposit","+$1,250.00")}${activity("Netflix","-$15.99")}${activity("Demo transfer","+$75.00")}</div>
+    </div>
+    <div class="card"><h2>Take Care of Your Banking Needs</h2><div class="quick">
+      <button onclick="go('accounts')">▤<b>View Balances<br>& Activity</b></button>
+      <button onclick="go('cards')">▣<b>Manage Cards</b></button>
+      <button onclick="go('alerts')">♧<b>Set Alerts</b></button>
+      <button onclick="go('transfer')">⇄<b>Transfer & Pay</b></button>
+      <button onclick="go('deposit')">📷<b>Deposit Checks</b></button>
+    </div></div>
+    <div class="grid feature-grid">
+      <div class="card"><h2>View Account Balances & Activity</h2><p>Review demo balances and activity. Manage checking, savings, credit cards, loans and investment accounts.</p><button onclick="go('accounts')">View Accounts →</button></div>
+      <div class="card"><h2>Activate or Replace Cards</h2><p>Activate demo cards, request a replacement, and review card controls.</p><button onclick="go('cards')">Manage Cards →</button></div>
+      <div class="card"><h2>Set Alerts</h2><p>Get demo notifications about important account information.</p><button onclick="go('alerts')">Set Alerts →</button></div>
+      <div class="card"><h2>Transfer Money and Pay Bills</h2><p>Simulate transfers, bill payments, and Zelle®-style demo activity. No real transactions occur.</p><button onclick="go('transfer')">Transfer & Pay →</button></div>
+      <div class="card full"><h2>Check Deposit</h2><p>Upload a check image for a simulated deposit workflow and receive immediate demo confirmation that it is processing.</p><button onclick="go('deposit')">Deposit a Check →</button></div>
+    </div>
+  </section>`,
+accounts: () => `<section class="page"><h1>Accounts</h1><p class="muted">All balances below are fictional demo data.</p><div class="grid feature-grid">${[
+["Checking","*1234","$2,483.76"],["Savings","*5678","$5,230.12"],["Chasewood Credit Card","*9012","$1,245.30"],["Auto Loan","*3456","$8,672.19"],["Investment Account","*7890","$12,340.55"]].map(x=>`<div class="card"><h2>${x[0]}</h2><p>${x[1]}</p><strong class="balance">${x[2]}</strong><p class="muted">Demo balance</p><button>Review activity</button></div>`).join("")}</div></section>`,
+cards: () => `<section class="page"><h1>Cards</h1><p class="muted">Card controls are simulated and do not contact a card network.</p><div class="card"><h2>Chasewood Visa Debit •••• 1234</h2><p>Status: Active</p><button onclick="demo('Card activation')">Activate card</button> <button onclick="demo('Replacement request')">Replace card</button></div><div class="card"><h2>Chasewood Credit Card •••• 9012</h2><p>Status: Active</p><button onclick="demo('Card controls')">Card controls</button></div></section>`,
+alerts: () => `<section class="page"><h1>Alerts</h1><div class="card"><label class="switch"><input type="checkbox" checked> Low balance</label><label class="switch"><input type="checkbox" checked> Large purchase</label><label class="switch"><input type="checkbox"> Deposit processing</label><label class="switch"><input type="checkbox"> Login activity</label><button class="primary" onclick="demo('Alert preferences saved')">Save preferences</button></div></section>`,
+transfer: () => `<section class="page"><h1>Transfer & Pay</h1><div class="grid feature-grid"><div class="card"><h2>Transfer Money</h2><p>Move demo funds between Chasewood accounts.</p><select><option>Checking ••••1234</option><option>Savings ••••5678</option></select><input placeholder="Amount" inputmode="decimal"><button class="primary" onclick="demo('Demo transfer scheduled — no real money moved')">Continue</button></div><div class="card"><h2>Send & Receive</h2><p>Zelle®-style demo screen using a U.S. mobile number or email address. This demo does not send money.</p><input placeholder="Email or U.S. mobile number"><button onclick="demo('Demo recipient selected')">Continue</button></div><div class="card"><h2>Pay Bills</h2><p>Simulate a bill payment.</p><input placeholder="Company"><input placeholder="Amount"><button onclick="demo('Demo bill payment created — no real payment made')">Pay bill</button></div><div class="card"><h2>Linked Investment Accounts</h2><p>Demo transfer between Chasewood and linked investment accounts.</p><button onclick="demo('Demo transfer prepared')">Transfer funds</button></div></div></section>`,
+deposit: () => `<section class="page"><h1>Check Deposit</h1><div class="card"><h2>Deposit a check</h2><p>Take or upload photos of the front and back of a check for this fictional workflow.</p><label>Front of check<input type="file" accept="image/*"></label><label>Back of check<input type="file" accept="image/*"></label><input placeholder="Deposit amount" inputmode="decimal"><button class="primary" onclick="demo('Demo confirmation: your check is processing. No deposit was submitted.')">Submit demo deposit</button><div id="depositResult"></div></div></section>`,
+statements: () => `<section class="page"><h1>Statements & Documents</h1><div class="card"><h2>Demo documents</h2><p>September 2026 Checking Statement</p><button onclick="demo('Demo document preview')">View</button><hr><p>August 2026 Credit Card Statement</p><button onclick="demo('Demo document preview')">View</button></div></section>`,
+settings: () => `<section class="page"><h1>Settings</h1><div class="card"><h2>Profile</h2><p>Username: kaylawoods</p><p>Security: Demo-only authentication</p><button onclick="demo('Demo settings saved')">Save</button></div></section>`,
+help: () => `<section class="page"><h1>Help & Support</h1><div class="card"><h2>How can we help?</h2><p>This is a fictional banking interface for demonstrations and video/game production.</p><button onclick="demo('Demo chat opened')">Chat with us</button></div></section>`
+};
+
+function account(n,id,b,s){return `<div class="account"><span class="icon">▣</span><div><b>${n}</b><small>••••${id}</small></div><strong>${b}<small>${s}</small></strong>›</div>`}
+function activity(n,a){return `<div class="activity"><span><b>${n}</b><small>Demo transaction</small></span><strong>${a}</strong></div>`}
+function login(){let u=document.getElementById('username').value,p=document.getElementById('password').value;if(u==='kaylawoods'&&p==='Kaylawoodslove1'){document.getElementById('loginView').classList.add('hidden');document.getElementById('app').classList.remove('hidden');go('home')}else document.getElementById('loginError').textContent='Incorrect demo username or password.'}
+function logout(){document.getElementById('app').classList.add('hidden');document.getElementById('loginView').classList.remove('hidden')}
+function go(page){document.getElementById('content').innerHTML=pages[page]();document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo(0,0)}
+function demo(msg){alert(msg)}
+document.querySelectorAll('.nav').forEach(x=>x.onclick=()=>go(x.dataset.page));
+</script>
+</body>
+</html>
